@@ -16,23 +16,16 @@ jobs:
       - name: Login azure
         run: az login --use-device-code  
 
-        # step3: create resource group
-      - name: create Resource Group
-        run: |
-          az group create --name ${{ secrets.Resource_group }} --location ${{ secrets.location }} 
+        # step3: set aks context
+      - name: set aks context
+        id: set-context
+        uses: azure/set-aks-context@v3
+        with:
+         resource-group: ${{ secrets.Resource_Group }} 
+         cluster-name ${{ secrets.AKS_NAME }}
 
-      #   # step4: create aks cluster
-      # - name: aks cluster
-      #   run: |
-      #     az aks create --resource-group ${{ secrets.Resource_Group }} --name ${{ secrets.aks_name }} --location ${{ secrets.location }} --node-count 1 --generate-ssh-key 
-
-        # step5: get aks credentials
-      - name: aks credentials
-        run: |
-          az aks get-credentials --resource-group ${{ secrets.Resource_Group }}  --name ${{ secrets.aks_name }}  
-
-        # step6: verify aks cluster
-      - name: verify aks cluster
+          step4: verify cluster
+      - name: verify cluster
         run: |
           kubectl get nodes
-          kubectl get namespace    
+          kubectl get namespace        
