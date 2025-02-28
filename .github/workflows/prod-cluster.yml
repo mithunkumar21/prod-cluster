@@ -24,7 +24,7 @@ jobs:
         # step4: create aks cluster
       - name: aks cluster
         run: |
-          az aks create --resource-group ${{ secrets.Resource_Group }} --name ${{ secrets.aks_name }} --location ${{ secrets.location }} --node-count 1 --generate-ssh-key 
+          az aks update --resource-group ${{ secrets.Resource_Group }} --name ${{ secrets.aks_name }} --location ${{ secrets.location }} --node-count 1 --generate-ssh-key 
 
         # step5: get aks credentials
       - name: aks credentials
