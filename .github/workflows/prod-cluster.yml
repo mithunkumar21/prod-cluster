@@ -1,4 +1,4 @@
-name: aks deployment
+name: aks set-up
 
 on:
   workflow_dispatch
