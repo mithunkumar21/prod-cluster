@@ -29,16 +29,22 @@ jobs:
         run: |
           kubectl get nodes   
 
-      # Step 5: Apply Taint to a Node
-      - name: Taint AKS Node
-        run: |
-          NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
-          kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
+      # # Step 5: Apply Taint to a Node
+      # - name: Taint AKS Node
+      #   run: |
+      #     NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
+      #     kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
 
-      # Step 6: Apply Pod with Toleration
-      - name: Deploy Pod with Toleration
+      # # Step 6: Apply Pod with Toleration
+      # - name: Deploy Pod with Toleration
+      #   run: |
+      #     kubectl apply -f aks/mithun1.yml
+
+      # step5: apply pod with toleration
+      - name: deploy pod with toleration
         run: |
-          kubectl apply -f aks/mithun1.yml
+         kubectl taint nodes aks-nodepool1-27532783-vmss000002 type=gpn:NoSchedule
+         kubectl apply -f aks/mithun1.yml
 
       # Step 7: Verify Taint
       - name: Verify Taint
