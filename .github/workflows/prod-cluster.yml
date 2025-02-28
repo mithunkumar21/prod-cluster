@@ -19,12 +19,12 @@ jobs:
         # step3: create resource group
       - name: create Resource Group
         run: |
-          az group create --name ${{ secrets.Resource_group }} --Location ${{ secrets.Location }} 
+          az group create --name ${{ secrets.Resource_group }} --location ${{ secrets.location }} 
 
         # step4: create aks cluster
       - name: aks cluster
         run: |
-          az create aks --resource-group ${{ secrets.Resource_Group }} --name ${{ secrets.aks_name }} --location ${{ secrets.Location }} --node-count 1 --generate-ssh-key 
+          az create aks --resource-group ${{ secrets.Resource_Group }} --name ${{ secrets.aks_name }} --location ${{ secrets.location }} --node-count 1 --generate-ssh-key 
 
         # step5: get aks credentials
       - name: aks credentials
