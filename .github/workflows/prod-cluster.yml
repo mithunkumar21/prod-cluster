@@ -29,17 +29,23 @@ jobs:
         run: |
           kubectl get nodes   
 
-      # Step 4: Apply taint to a node
+      # # Step 4: Apply taint to a node
+      # - name: Taint AKS Node
+      #   run: |
+      #     NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
+      #     kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
+
+      # Step 4: Deploy appone and apptwo with tolerations
+      - name: Deploy mithun and mithun1 to AKS
+        run: |
+          kubectl apply -f aks/mithun.yml
+          kubectl apply -f aks/mithun1.yml   
+
+      # Step 5: Apply taint to a node
       - name: Taint AKS Node
         run: |
           NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
           kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
-
-      # Step 5: Deploy appone and apptwo with tolerations
-      - name: Deploy mithun and mithun1 to AKS
-        run: |
-          kubectl apply -f aks/mithun.yml
-          kubectl apply -f aks/mithun1.yml       
 
         # Step6: verify taint
       - name: Verify Taint
