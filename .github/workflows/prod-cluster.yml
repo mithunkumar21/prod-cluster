@@ -33,8 +33,8 @@ jobs:
       # Step 5: Deploy appone and apptwo with tolerations
       - name: Deploy appone and apptwo to AKS
         run: |
-          kubectl apply -f aks/appone.yaml
-          kubectl apply -f aks/apptwo.yaml       
+          kubectl apply -f aks/mithun.yaml
+          kubectl apply -f aks/mithun1.yaml       
 
         # Step6: verify taint
       - name: Verify Taint
