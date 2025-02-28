@@ -14,4 +14,4 @@ spec:
    - name: mithun1
      image: user/mithun1:v1
      ports:
-       containerPort: 8080    
+       - containerPort: 8080    

@@ -5,8 +5,8 @@ metadata:
   labels:
     app: mithun
 spec:
-  containers: 
-   - name: mithun
-     image: user/mithun:v1
-     ports:
-       containerPort: 8080
+  containers:
+    - name: mithun
+      image: user/mithun:v1
+      ports:
+        - containerPort: 8080  
