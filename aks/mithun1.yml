@@ -5,13 +5,13 @@ metadata:
   labels:
     app: mithun1
 spec:
-  toleration:
-  - key: "type"
-    operator: "equal"
-    value: "gpn"
-    effect: "NoSchedule"
+  tolerations:  # ✅ Changed from 'toleration' to 'tolerations'
+    - key: "type"
+      operator: "Equal"  # ✅ Changed 'equal' to 'Equal' (case-sensitive)
+      value: "gpn"
+      effect: "NoSchedule"
   containers: 
-   - name: mithun1
-     image: user/mithun1:v1
-     ports:
-       - containerPort: 8080    
+    - name: mithun1
+      image: user/mithun1:v1
+      ports:
+        - containerPort: 8080
