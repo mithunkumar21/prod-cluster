@@ -29,7 +29,7 @@ jobs:
         # step5: get aks credentials
       - name: aks credentials
         run: |
-          az aks get credentials --resource-group ${{ secrets.Resource_Group }}  --name ${{ secrets.aks_name }}  
+          az aks get-credentials --resource-group ${{ secrets.Resource_Group }}  --name ${{ secrets.aks_name }}  
 
         # step6: verify aks cluster
       - name: verify aks cluster
