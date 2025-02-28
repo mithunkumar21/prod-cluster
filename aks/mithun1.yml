@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: mithun
+  name: mithun1
   labels:
-    app: mithun
+    app: mithun1
 spec:
   toleration:
   - key: "type"
@@ -11,7 +11,7 @@ spec:
     value: "gpn"
     effect: "NoSchedule"
   containers: 
-   - name: mithun
-     image: user/mithun:v1
+   - name: mithun1
+     image: user/mithun1:v1
      ports:
        containerPort: 8080    
