@@ -22,7 +22,7 @@ jobs:
         uses: azure/set-aks-context@v3
         with:
          resource-group: ${{ secrets.Resource_Group }} 
-         cluster-name ${{ secrets.AKS_NAME }}
+         cluster-name: ${{ secrets.AKS_NAME }}
 
           step4: verify cluster
       - name: verify cluster
