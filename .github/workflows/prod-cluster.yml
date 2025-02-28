@@ -31,15 +31,15 @@ jobs:
           kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
 
       # Step 5: Deploy appone and apptwo with tolerations
-      - name: Deploy appone and apptwo to AKS
+      - name: Deploy mithun and mithun1 to AKS
         run: |
-          kubectl apply -f aks/mithun.yaml
-          kubectl apply -f aks/mithun1.yaml       
+          kubectl apply -f aks/mithun.yml
+          kubectl apply -f aks/mithun1.yml       
 
         # Step6: verify taint
       - name: Verify Taint
         run: |
-          kubectl describe node $GITHUB_RUNNER_NODE | grep Taints
+          kubectl describe node $NODE_NAME | grep Taints
           
         # step7: verify pod status         
       - name: Verify Pod Placement
