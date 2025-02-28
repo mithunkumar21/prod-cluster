@@ -24,6 +24,11 @@ jobs:
          resource-group: ${{ secrets.Resource_Group }} 
          cluster-name: ${{ secrets.AKS_NAME }}
 
+         step5: verify node
+      - name: verify node
+        run: |
+          kubectl get nodes   
+
       # Step 4: Apply taint to a node
       - name: Taint AKS Node
         run: |
