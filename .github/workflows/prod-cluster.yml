@@ -44,7 +44,7 @@ jobs:
       # Step 5: Apply taint to a node
       - name: Taint AKS Node
         run: |
-          NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
+          NODE_NAME=$(kubectl get nodes)
           kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
 
         # Step6: verify taint
