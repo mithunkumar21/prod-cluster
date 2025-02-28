@@ -14,7 +14,13 @@ jobs:
  
         # step2: azure portal login
       - name: Login azure
-        run: az login --use-device-code   
+        run: az login --use-device-code  
+
+        step3: create resource group
+      - name: create Resource Group
+        run: |
+          az group create --name ${{ secrets.Resource_group }} --Location ${{ secrets.Location }} 
+
 
         # step3: create aks cluster
       - name: aks cluster
