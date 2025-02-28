@@ -19,12 +19,12 @@ jobs:
         # step3: set aks context
       - name: set aks context
         id: set-context
-        uses: azure/set-aks-context@v3
+        uses: azure/aks-set-context@v3
         with:
          resource-group: ${{ secrets.Resource_Group }} 
          cluster-name: ${{ secrets.AKS_NAME }}
 
-        # step4: verify cluster
+       # step4: verify cluster
       - name: verify cluster
         run: |
           kubectl get nodes
