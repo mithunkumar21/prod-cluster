@@ -24,10 +24,10 @@ jobs:
          resource-group: ${{ secrets.Resource_Group }} 
          cluster-name: ${{ secrets.AKS_NAME }}
 
-         step4: create ns
-      - name: create namespace
-        run: |
-          kubectl create namespace github-runner   
+      #    step4: create ns
+      # - name: create namespace
+      #   run: |
+      #     kubectl create namespace github-runner   
 
        # step4: verify cluster
       - name: verify cluster
