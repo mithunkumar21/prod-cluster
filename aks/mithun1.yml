@@ -1,0 +1,17 @@
+apiversion: v1
+kind: deployment
+metadata:
+  name: mithun
+  labels:
+    app: mithun
+spec:
+  toleration:
+  - key: "type"
+    operator: "equal"
+    value: "gpn"
+    effect: "NoSchedule"
+  containers: 
+   - name: mithun
+     image: user/mithun:v1
+     ports:
+       containerPort: 8080    

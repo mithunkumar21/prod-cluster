@@ -24,13 +24,16 @@ jobs:
          resource-group: ${{ secrets.Resource_Group }} 
          cluster-name: ${{ secrets.AKS_NAME }}
 
-      #    step4: create ns
-      # - name: create namespace
-      #   run: |
-      #     kubectl create namespace github-runner   
-
-       # step4: verify cluster
-      - name: verify cluster
+      # Step 4: Apply taint to a node
+      - name: Taint AKS Node
         run: |
-          kubectl get nodes
-          # kubectl get namespace        
+          NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
+          kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
+
+      # Step 5: Deploy appone and apptwo with tolerations
+      - name: Deploy appone and apptwo to AKS
+        run: |
+          kubectl apply -f aks/appone.yaml
+          kubectl apply -f aks/apptwo.yaml         
+
+      
