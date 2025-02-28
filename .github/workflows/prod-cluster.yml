@@ -21,7 +21,6 @@ jobs:
         run: |
           az group create --name ${{ secrets.Resource_group }} --Location ${{ secrets.Location }} 
 
-
         # step4: create aks cluster
       - name: aks cluster
         run: |
