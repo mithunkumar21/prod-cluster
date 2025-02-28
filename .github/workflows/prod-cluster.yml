@@ -1,4 +1,4 @@
-name: aks set-up
+name: aks-set-up
 
 on:
   workflow_dispatch
@@ -8,55 +8,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-        # step1: checkout code
-      - name: checkour repository
+      # Step 1: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
  
-        # step2: azure portal login
-      - name: Login azure
+      # Step 2: Azure Portal Login
+      - name: Login to Azure
         run: az login --use-device-code  
 
-        # step3: set aks context
-      - name: set aks context
+      # Step 3: Set AKS Context
+      - name: Set AKS Context
         id: set-context
         uses: azure/aks-set-context@v3
         with:
-         resource-group: ${{ secrets.Resource_Group }} 
-         cluster-name: ${{ secrets.AKS_NAME }}
+          resource-group: ${{ secrets.Resource_Group }} 
+          cluster-name: ${{ secrets.AKS_NAME }}
 
-         step5: verify node
-      - name: verify node
+      # Step 4: Verify Node
+      - name: Verify Node
         run: |
           kubectl get nodes   
 
-      # # Step 4: Apply taint to a node
-      # - name: Taint AKS Node
-      #   run: |
-      #     NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
-      #     kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
-
-      # Step 4: Deploy appone and apptwo with tolerations
-      - name: Deploy mithun and mithun1 to AKS
-        run: |
-          kubectl apply -f aks/mithun.yml
-          kubectl apply -f aks/mithun1.yml   
-
-      # Step 5: Apply taint to a node
+      # Step 5: Apply Taint to a Node
       - name: Taint AKS Node
         run: |
-          kubectl taint nodes $(kubectl get nodes -o custom-columns=:metadata.name --no-headers) type=gpn:NoSchedule --overwrite
+          NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
           kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
 
-        # Step6: verify taint
+      # Step 6: Apply Pod with Toleration
+      - name: Deploy Pod with Toleration
+        run: |
+          kubectl apply -f aks/mithun1.yml
+
+      # Step 7: Verify Taint
       - name: Verify Taint
         run: |
+          NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
           kubectl describe node $NODE_NAME | grep Taints
           
-        # step7: verify pod status         
-      - name: Verify Pod Placement
+      # Step 8: Verify Pod Placement         
+      - name: Verify Pod Status
         run: |
           kubectl get pods -o wide
-
-
-
-      
