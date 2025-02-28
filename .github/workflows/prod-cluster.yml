@@ -1,0 +1,33 @@
+name: aks deployment
+
+on:
+  workflow_dispatch
+
+jobs:
+  create-aks:
+    runs-on: ubuntu-latest
+    steps:
+
+        # step1: checkout code
+      - name: checkour repository
+        uses: actions/checkout@v4
+ 
+        # step2: azure portal login
+      - name: Login azure
+        run: az login --use-device-code   
+
+        # step3: create aks cluster
+      - name: aks cluster
+        run: |
+          az create aks --resource-group ${{ secret.Resource_Group }} --name ${{ secret.aks_name }} --node-count 1 --generate-ssh-key 
+
+        # step4: get aks credentials
+      - name: aks credentials
+        run: |
+          az aks get credentials --resource-group ${{ secret.Resource_Group }}  --name ${{ secret.aks_name }}  
+
+        # step5: verify aks cluster
+      - name: verify aks cluster
+        run: |
+          kubectl get nodes
+          kubectl get namespace    
