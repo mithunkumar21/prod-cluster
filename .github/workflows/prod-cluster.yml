@@ -24,7 +24,7 @@ jobs:
          resource-group: ${{ secrets.Resource_Group }} 
          cluster-name: ${{ secrets.AKS_NAME }}
 
-          step4: verify cluster
+        # step4: verify cluster
       - name: verify cluster
         run: |
           kubectl get nodes
