@@ -27,7 +27,7 @@ jobs:
         #  step4: deploy hpa configuration
       - name: apply hpa
         run: |
-         kubectl get -f aks/hpa-cluster.yml
+         kubectl apply -f aks/hpa-cluster.yml
 
         #  step5: check the hpa configuration
       - name: check hpa
