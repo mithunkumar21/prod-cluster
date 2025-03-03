@@ -32,7 +32,7 @@ jobs:
         #  step5: check the hpa configuration
       - name: check hpa
         run: |
-         kubectl het hpa -n github-runner
+         kubectl get hpa -n github-runner
 
         #  step6: monitor hpa config
       - name: monitor hpa config
