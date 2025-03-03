@@ -12,14 +12,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
  
-        # step2: use manage identity
-      - name: Login to Azure # Azure Login with User Managed Identity
-        uses: azure/login@v2
-        with:
-          auth-type: Identity
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      # Step 2: Azure Portal Login
+      - name: Login to Azure
+        run: az login --use-device-code  
 
       # Step 3: Set AKS Context
       - name: Set AKS Context
@@ -28,4 +23,20 @@ jobs:
         with:
           resource-group: ${{ secrets.Resource_Group }} 
           cluster-name: ${{ secrets.AKS_NAME }}
+
+        #  step4: deploy hpa configuration
+      - name: apply hpa
+        run: |
+         kubectl get -f aks/hpa-cluster.yml
+
+        #  step5: check the hpa configuration
+      - name: check hpa
+        run: |
+         kubectl het hpa -n github-runner
+
+        #  step6: monitor hpa config
+      - name: monitor hpa config
+        run: |
+         kubectl get po -n github-runner -w            
+
 
