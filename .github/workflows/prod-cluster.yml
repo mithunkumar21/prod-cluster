@@ -1,10 +1,10 @@
-name: aks-set-up
+name: set-up hpa
 
 on:
   workflow_dispatch
 
 jobs:
-  create-aks:
+  create-hpa:
     runs-on: ubuntu-latest
     steps:
 
@@ -12,9 +12,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
  
-      # Step 2: Azure Portal Login
-      - name: Login to Azure
-        run: az login --use-device-code  
+        # step2: use manage identity
+      - name: Login to Azure # Azure Login with User Managed Identity
+        uses: azure/login@v2
+        with:
+          auth-type: Identity
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       # Step 3: Set AKS Context
       - name: Set AKS Context
@@ -24,35 +29,3 @@ jobs:
           resource-group: ${{ secrets.Resource_Group }} 
           cluster-name: ${{ secrets.AKS_NAME }}
 
-      # Step 4: Verify Node
-      - name: Verify Node
-        run: |
-          kubectl get nodes   
-
-      # # Step 5: Apply Taint to a Node
-      # - name: Taint AKS Node
-      #   run: |
-      #     NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
-      #     kubectl taint nodes $NODE_NAME type=gpn:NoSchedule --overwrite
-
-      # # Step 6: Apply Pod with Toleration
-      # - name: Deploy Pod with Toleration
-      #   run: |
-      #     kubectl apply -f aks/mithun1.yml
-
-      # step5: apply pod with toleration
-      - name: deploy pod with toleration
-        run: |
-         kubectl taint nodes aks-nodepool1-27532783-vmss000002 type=gpn:NoSchedule
-         kubectl apply -f aks/mithun1.yml
-
-      # Step 7: Verify Taint
-      - name: Verify Taint
-        run: |
-          NODE_NAME=$(kubectl get nodes -o jsonpath='{.items[0].metadata.name}')
-          kubectl describe node $NODE_NAME | grep Taints
-          
-      # Step 8: Verify Pod Placement         
-      - name: Verify Pod Status
-        run: |
-          kubectl get pods -o wide
